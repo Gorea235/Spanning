@@ -5,6 +5,8 @@ Written by Gorea (https://github.com/Gorea235).
 __author__ = "Gorea (https://github.com/Gorea235)"
 __all__ = ["Span", "ReadOnlySpan"]
 
+import math
+
 
 class __SpanIter__:
     def __init__(self, span):
@@ -60,14 +62,27 @@ class ReadOnlySpan:
         step = 1 if step is None else step
         # use slice to simplify start/end point calculation
         self._slice = slice(start, end, step)
+        if step < 0:
+            over_ln += 1  # fix to get upper bound index to match
         self._indices = self._slice.indices(
             over_ln)  # stores the start & end points
 
     def _key_to_actual(self, key):
+        # key *= self._indices[2]  # apply step
+        # if self._indices[2] < 0:
+        #     key -= 1
+        # if key < 0:
+        #     key %= len(self)  # apply wrap-around
+
         # forces the key to be within the span limits
-        key *= self._indices[2]  # apply step
-        if key < 0 or key >= len(self):
+        if key >= len(self):
             raise IndexError("span index out of range")
+        lself = len(self)
+        if key < 0:
+            key %= lself  # apply wrap-around
+        key *= abs(self._indices[2])
+        if self._indices[2] < 0:
+            key = (lself - 1) - key
         return self._indices[0] + key
 
     def __getitem__(self, key):
@@ -126,7 +141,8 @@ class ReadOnlySpan:
         return False
 
     def __len__(self):
-        ln = self._indices[1] - self._indices[0]
+        ln = int(math.ceil(
+            (self._indices[1] - self._indices[0]) / abs(self._indices[2])))
         if ln < 0:
             return 0
         return ln
