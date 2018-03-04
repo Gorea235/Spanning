@@ -68,12 +68,6 @@ class ReadOnlySpan:
             over_ln)  # stores the start & end points
 
     def _key_to_actual(self, key):
-        # key *= self._indices[2]  # apply step
-        # if self._indices[2] < 0:
-        #     key -= 1
-        # if key < 0:
-        #     key %= len(self)  # apply wrap-around
-
         # forces the key to be within the span limits
         if key >= len(self):
             raise IndexError("span index out of range")
@@ -162,7 +156,7 @@ class ReadOnlySpan:
         return __SpanIter__(self)
 
     def __repr__(self):
-        return "Span<" + str(self) + ">"
+        return "ReadOnlySpan<" + str(self) + ">"
 
     def __str__(self):
         # written as to not reallocate any part of the list
@@ -196,3 +190,6 @@ class Span(ReadOnlySpan):
 
     def __setitem__(self, key, value):
         self._over[self._key_to_actual(key)] = value
+
+    def __repr__(self):
+        return "Span<" + str(self) + ">"
