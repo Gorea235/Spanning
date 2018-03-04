@@ -69,11 +69,11 @@ class ReadOnlySpan:
 
     def _key_to_actual(self, key):
         # forces the key to be within the span limits
-        if key >= len(self):
-            raise IndexError("span index out of range")
         lself = len(self)
-        if key < 0:
-            key %= lself  # apply wrap-around
+        if key >= lself:
+            raise IndexError("span index out of range")
+        if key < 0:  # apply wrap-around with negative indexes
+            key %= lself
         if self._indices[2] < 0:  # if reverse span, get reverse index
             key = (lself - 1) - key
         key *= abs(self._indices[2])  # scale key last to get actual index
