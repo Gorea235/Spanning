@@ -151,7 +151,22 @@ class TestReadOnlySpan(unittest.TestCase):
             test_var = sp[2]
 
     def test_eq(self):
-        pass
+        ls = [1, 2, 3, 4, 5]
+        self.assertEqual(self.span(ls), ls)
+        self.assertEqual(self.span(ls, 1, 4), [2, 3, 4])
+        self.assertEqual(self.span(ls, 3, 4), [4])
+        self.assertEqual(self.span(ls, 1, step=-1), [5, 4, 3, 2])
+        self.assertEqual(self.span(ls, step=2), [1, 3, 5])
+        self.assertEqual(self.span(ls, step=-2), [5, 3, 1])
+
+        tpl = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+        self.assertEqual(self.span(tpl, 4, 7), [4, 5, 6])
+        self.assertEqual(self.span(tpl, end=7, step=-2), [6, 4, 2, 0])
+        self.assertEqual(self.span(tpl, 2, step=3), [2, 5, 8])
+
+        ls = [1, 2, 3, 1, 2, 3, 3, 2, 1]
+        self.assertEqual(self.span(ls, 0, 3), self.span(ls, 3, 6))
+        self.assertEqual(self.span(ls, 3, 6), self.span(ls, 6, 9, -1))
 
     def test_ne(self):
         pass
