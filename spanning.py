@@ -68,8 +68,8 @@ class ReadOnlySpan:
             over_ln)  # stores the start & end points
 
     def _key_to_actual(self, key):
-        # forces the key to be within the span limits
         lself = len(self)
+        # forces the key to be within the span limits
         if key >= lself:
             raise IndexError("span index out of range")
         if key < 0:  # apply wrap-around with negative indexes
@@ -96,7 +96,7 @@ class ReadOnlySpan:
                 elif self[i] > other[i]:
                     return 1
             # compare length if all items are equal to the end of the
-            # smallest list-like
+            # smallest list-like object
             if lself < lother:
                 return -1
             elif lself > lother:

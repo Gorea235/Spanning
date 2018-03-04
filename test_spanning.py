@@ -169,13 +169,31 @@ class TestReadOnlySpan(unittest.TestCase):
         self.assertEqual(self.span(ls, 3, 6), self.span(ls, 6, 9, -1))
 
     def test_ne(self):
-        pass
+        ls = [1, 2, 3, 4, 5, 6, 7, 8]
+
+        self.assertNotEqual(self.span(ls), [1, 2, 3])
+        self.assertNotEqual(self.span(ls, step=-1), ls)
+        self.assertNotEqual(self.span(ls, 2), ls)
 
     def test_lt(self):
-        pass
+        ls = [1, 2, 3, 4, 5, 6]
+
+        self.assertLess(self.span(ls, end=5), ls)
+        self.assertLess(self.span(ls, end=3), ls)
+        self.assertLess(self.span([1, 1, 1, 1, 1, 1]), ls)
+        self.assertLess(self.span([1, 2, 3, 4, 5, 5]), ls)
+        self.assertLess(self.span([5, 5, 4, 3, 2, 1], step=-1), ls)
 
     def test_le(self):
-        pass
+        ls = [1, 2, 3, 4, 5, 6]
+
+        self.assertLessEqual(self.span(ls, end=5), ls)
+        self.assertLessEqual(self.span(ls, end=3), ls)
+        self.assertLessEqual(self.span([1, 1, 1, 1, 1, 1]), ls)
+        self.assertLessEqual(self.span([1, 2, 3, 4, 5, 5]), ls)
+        self.assertLessEqual(self.span([5, 5, 4, 3, 2, 1], step=-1), ls)
+        self.assertLessEqual(self.span(ls, end=6), ls)
+        self.assertLessEqual(self.span([6, 5, 4, 3, 2, 1], step=-1), ls)
 
     def test_gt(self):
         pass
