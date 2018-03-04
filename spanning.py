@@ -74,9 +74,9 @@ class ReadOnlySpan:
         lself = len(self)
         if key < 0:
             key %= lself  # apply wrap-around
-        key *= abs(self._indices[2])
-        if self._indices[2] < 0:
+        if self._indices[2] < 0:  # if reverse span, get reverse index
             key = (lself - 1) - key
+        key *= abs(self._indices[2])  # scale key last to get actual index
         return self._indices[0] + key
 
     def __getitem__(self, key):
@@ -136,7 +136,7 @@ class ReadOnlySpan:
 
     def __len__(self):
         ln = int(math.ceil(
-            (self._indices[1] - self._indices[0]) / abs(self._indices[2])))
+            (self._indices[1] - self._indices[0]) / float(abs(self._indices[2]))))
         if ln < 0:
             return 0
         return ln
