@@ -238,13 +238,53 @@ class TestReadOnlySpan(unittest.TestCase):
         self.assertEqual(len(self.span([1, 2, 3, 4, 5], step=-2)), 3)
         self.assertEqual(len(self.span([1, 2, 3, 4, 5], end=4)), 4)
 
+    def test_iter(self):
+        ls = [1, 2, 3, 4]
+
+        tmp = []
+        for i in iter(self.span(ls)):
+            tmp.append(i)
+        self.assertEqual(tmp, ls)
+
+        tmp = []
+        for i in self.span([4, 3, 2, 1, 0], end=4):
+            tmp.append(i)
+        self.assertEqual(tmp, list(reversed(ls)))
+
+        tmp = []
+        for i in iter(self.span([4, 3, 2, 1, 0], end=4, step=-1)):
+            tmp.append(i)
+        self.assertEqual(tmp, ls)
+
+        tmp = []
+        for i in self.span([9, 8, 7, 1, 2, 3, 4, 7, 8, 9], 3, 7):
+            tmp.append(i)
+        self.assertEqual(tmp, ls)
+
     def test_reversed(self):
-        pass
+        ls = [1, 2, 3, 4]
+
+        tmp = []
+        for i in reversed(self.span(ls)):
+            tmp.append(i)
+        self.assertEqual(tmp, list(reversed(ls)))
+
+        tmp = []
+        for i in reversed(self.span([4, 3, 2, 1, 0], end=4)):
+            tmp.append(i)
+        self.assertEqual(tmp, ls)
+
+        tmp = []
+        for i in reversed(self.span([4, 3, 2, 1, 0], end=4, step=-1)):
+            tmp.append(i)
+        self.assertEqual(tmp, list(reversed(ls)))
+
+        tmp = []
+        for i in reversed(self.span([9, 8, 7, 1, 2, 3, 4, 7, 8, 9], 3, 7)):
+            tmp.append(i)
+        self.assertEqual(tmp, list(reversed(ls)))
 
     def test_contains(self):
-        pass
-
-    def test_iter(self):
         pass
 
     def test_repr(self):

@@ -141,8 +141,15 @@ class ReadOnlySpan:
             return 0
         return ln
 
+    def __iter__(self):
+        return __SpanIter__(self)
+
     def __reversed__(self):
-        return Span(self, step=-self._indices[2])  # reverse step
+        # returns the iterator of a reversed version of the current span
+        # object (this means that the iterator is actuall going over a
+        # different object, however this should be a non-issue since the
+        # same list-like object is still being referenced)
+        return iter(Span(self, step=-self._indices[2]))
 
     def __contains__(self, item):
         # since we do not know what the underlying data structure is
@@ -151,9 +158,6 @@ class ReadOnlySpan:
             if i == item:
                 return True
         return False
-
-    def __iter__(self):
-        return __SpanIter__(self)
 
     def __repr__(self):
         return "ReadOnlySpan<" + str(self) + ">"
