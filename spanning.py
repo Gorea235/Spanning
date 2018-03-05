@@ -41,6 +41,10 @@ class ReadOnlySpan:
         over: the list-like object to span over (can be another Span object).
         start: the starting point of the span (if None, defaults to 0) (inclusive).
         end: the ending point of the span (if None, defaults to the end of over) (exclusive).
+        step: the step to span over the items with (if None, defaults to 1).
+            Used to create spans over list-like objects that index in different ways
+            (still no reallocation, just index adjustment). Negative steps can be used to
+            create spans that go in reverse.
     """
 
     def __init__(self, over, start=None, end=None, step=None):
@@ -51,8 +55,8 @@ class ReadOnlySpan:
             # if we are spanning of a Span, get the reference directly and just
             # adjust the start & end points
             self._over = over._over
-            offset = over._slice.start
-            prev_end = over._slice.stop
+            offset = over._indices[0]
+            prev_end = over._indices[1]
         over_ln = len(self._over)
         start = (0 if start is None else start) + offset
         if prev_end is not None and end is None:
@@ -63,10 +67,10 @@ class ReadOnlySpan:
             end = over_ln if end is None else end + offset
         step = 1 if step is None else step
         # use slice to simplify start/end point calculation
-        self._slice = slice(start, end, step)
+        current_slice = slice(start, end, step)
         if step < 0:
             over_ln += 1  # fix to get upper bound index to match
-        self._indices = self._slice.indices(
+        self._indices = current_slice.indices(
             over_ln)  # stores the start & end points
 
     def _key_to_actual(self, key):
@@ -193,6 +197,10 @@ class Span(ReadOnlySpan):
         over: the list-like object to span over (can be another Span object).
         start: the starting point of the span (if None, defaults to 0) (inclusive).
         end: the ending point of the span (if None, defaults to the end of over) (exclusive).
+        step: the step to span over the items with (if None, defaults to 1).
+            Used to create spans over list-like objects that index in different ways
+            (still no reallocation, just index adjustment). Negative steps can be used to
+            create spans that go in reverse.
     """
 
     def __setitem__(self, key, value):
