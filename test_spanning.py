@@ -312,10 +312,30 @@ class TestReadOnlySpan(unittest.TestCase):
         self.assertIn(2, sp)
 
     def test_repr(self):
-        pass
+        # format in the class name
+        fmt = "{}({{}})".format(self.span.__name__)
+
+        ls = [1, 2, 3, 4]
+        self.assertEqual(repr(self.span(ls)), fmt.format(repr(ls)))
+        self.assertEqual(repr(self.span(ls, 1)), fmt.format(repr([2, 3, 4])))
+        self.assertEqual(repr(self.span(ls, 1, 3)), fmt.format(repr([2, 3])))
+        self.assertEqual(repr(self.span(ls, end=2)), fmt.format(repr([1, 2])))
+        self.assertEqual(repr(self.span(ls, step=-1)),
+                         fmt.format(repr([4, 3, 2, 1])))
+        self.assertEqual(repr(self.span(ls, step=-2)),
+                         fmt.format(repr([3, 1])))
+        self.assertEqual(repr(self.span(ls, step=2)),
+                         fmt.format(repr([1, 3])))
 
     def test_str(self):
-        pass
+        ls = [1, 2, 3, 4]
+        self.assertEqual(str(self.span(ls)), str(ls))
+        self.assertEqual(str(self.span(ls, 1)), str([2, 3, 4]))
+        self.assertEqual(str(self.span(ls, 1, 3)), str([2, 3]))
+        self.assertEqual(str(self.span(ls, end=2)), str([1, 2]))
+        self.assertEqual(str(self.span(ls, step=-1)), str([4, 3, 2, 1]))
+        self.assertEqual(str(self.span(ls, step=-2)), str([3, 1]))
+        self.assertEqual(str(self.span(ls, step=2)), str([1, 3]))
 
 
 class TestSpan(TestReadOnlySpan):

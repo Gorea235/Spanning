@@ -160,7 +160,7 @@ class ReadOnlySpan:
         return False
 
     def __repr__(self):
-        return "ReadOnlySpan<" + str(self) + ">"
+        return self.__class__.__name__ + "(" + str(self) + ")"
 
     def __str__(self):
         # written as to not reallocate any part of the list
@@ -194,6 +194,3 @@ class Span(ReadOnlySpan):
 
     def __setitem__(self, key, value):
         self._over[self._key_to_actual(key)] = value
-
-    def __repr__(self):
-        return "Span<" + str(self) + ">"
