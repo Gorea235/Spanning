@@ -24,6 +24,8 @@ class __SpanIter__:
         else:
             raise StopIteration()
 
+    next = __next__  # Python 2 support
+
 
 class ReadOnlySpan:
     """Provides access over a list via reference rather than re-allocation.
