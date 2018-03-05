@@ -194,15 +194,49 @@ class TestReadOnlySpan(unittest.TestCase):
         self.assertLessEqual(self.span([5, 5, 4, 3, 2, 1], step=-1), ls)
         self.assertLessEqual(self.span(ls, end=6), ls)
         self.assertLessEqual(self.span([6, 5, 4, 3, 2, 1], step=-1), ls)
+        self.assertLessEqual(
+            self.span([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6], step=2), ls)
+        self.assertLessEqual(
+            self.span([6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1], step=-2), ls)
 
     def test_gt(self):
-        pass
+        ls = [1, 2, 3, 4, 5, 6]
+
+        self.assertGreater(self.span([2]), ls)
+        self.assertGreater(self.span(ls, 1), ls)
+        self.assertGreater(self.span(ls, 5, 6), ls)
+        self.assertGreater(self.span(ls, 2, step=2), ls)
+        self.assertGreater(self.span(ls, step=-1), ls)
+        self.assertGreater(self.span([1, 2, 3, 4, 5, 7]), ls)
+        self.assertGreater(self.span([1, 2, 3, 4, 5, 6, 1]), ls)
 
     def test_ge(self):
-        pass
+        ls = [1, 2, 3, 4, 5, 6]
+
+        self.assertGreaterEqual(self.span([2]), ls)
+        self.assertGreaterEqual(self.span(ls, 1), ls)
+        self.assertGreaterEqual(self.span(ls, 5, 6), ls)
+        self.assertGreaterEqual(self.span(ls, 2, step=2), ls)
+        self.assertGreaterEqual(self.span(ls, step=-1), ls)
+        self.assertGreaterEqual(self.span([1, 2, 3, 4, 5, 7]), ls)
+        self.assertGreaterEqual(self.span([1, 2, 3, 4, 5, 6, 1]), ls)
+        self.assertGreaterEqual(self.span(ls), ls)
+        self.assertGreaterEqual(self.span([6, 5, 4, 3, 2, 1], step=-1), ls)
+        self.assertGreaterEqual(
+            self.span([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6], step=2), ls)
+        self.assertGreaterEqual(
+            self.span([6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1], step=-2), ls)
 
     def test_len(self):
-        pass
+        self.assertEqual(len(self.span([1, 2, 3])), 3)
+        self.assertEqual(len(self.span([3, 2, 1], step=-1)), 3)
+        self.assertEqual(len(self.span([1, 2, 3, 4], 2)), 2)
+        self.assertEqual(len(self.span([1, 2, 3], step=2)), 2)
+        self.assertEqual(len(self.span([1, 2, 3, 4], step=2)), 2)
+        self.assertEqual(len(self.span([1, 2, 3, 4], end=3)), 3)
+        self.assertEqual(len(self.span([1, 2, 3, 4], 1, 3, -1)), 2)
+        self.assertEqual(len(self.span([1, 2, 3, 4, 5], step=-2)), 3)
+        self.assertEqual(len(self.span([1, 2, 3, 4, 5], end=4)), 4)
 
     def test_reversed(self):
         pass
