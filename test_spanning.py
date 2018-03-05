@@ -285,7 +285,31 @@ class TestReadOnlySpan(unittest.TestCase):
         self.assertEqual(tmp, list(reversed(ls)))
 
     def test_contains(self):
-        pass
+        ls = [1, 2, 3, 4, 5]
+
+        sp = self.span(ls)
+        self.assertIn(3, sp)
+        self.assertIn(1, sp)
+        self.assertIn(5, sp)
+        self.assertNotIn(10, sp)
+
+        sp = self.span(ls, 2)
+        self.assertNotIn(1, sp)
+        self.assertNotIn(2, sp)
+        self.assertIn(3, sp)
+        self.assertIn(4, sp)
+
+        sp = self.span(ls, end=3)
+        self.assertNotIn(4, sp)
+        self.assertNotIn(5, sp)
+        self.assertIn(2, sp)
+        self.assertIn(3, sp)
+
+        sp = self.span(ls, end=4, step=-1)
+        self.assertNotIn(5, sp)
+        self.assertIn(4, sp)
+        self.assertIn(3, sp)
+        self.assertIn(2, sp)
 
     def test_repr(self):
         pass
