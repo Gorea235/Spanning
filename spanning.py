@@ -84,7 +84,7 @@ class ReadOnlySpan:
     def __getitem__(self, key):
         return self._over[self._key_to_actual(key)]
 
-    def _do_cmp(self, other, op):
+    def __cmp__(self, other, op=None):
         # 1 : greater than
         # 0 : equal
         # -1: less than
@@ -106,12 +106,13 @@ class ReadOnlySpan:
             # equal items and size
             return 0
         except TypeError:
-            raise TypeError("'{}' is not supported against '{}' and '{}'".format(
-                op, self.__class__.__name__, other.__class__.__name__))
+            raise TypeError("{} is not supported against '{}' and '{}'".format(
+                "comparison" if op is None else ("'" + op + "'"),
+                self.__class__.__name__, other.__class__.__name__))
 
     def __eq__(self, other):
         try:
-            return self._do_cmp(other, "==") == 0
+            return self.__cmp__(other, "==") == 0
         except TypeError:
             return False
 
@@ -119,19 +120,19 @@ class ReadOnlySpan:
         return not self == other
 
     def __lt__(self, other):
-        return self._do_cmp(other, "<") == -1
+        return self.__cmp__(other, "<") == -1
 
     def __le__(self, other):
-        c = self._do_cmp(other, "<=")
+        c = self.__cmp__(other, "<=")
         if c == 0 or c == -1:
             return True
         return False
 
     def __gt__(self, other):
-        return self._do_cmp(other, "<") == 1
+        return self.__cmp__(other, "<") == 1
 
     def __ge__(self, other):
-        c = self._do_cmp(other, "<=")
+        c = self.__cmp__(other, "<=")
         if c == 0 or c == 1:
             return True
         return False
