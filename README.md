@@ -11,7 +11,7 @@ import math
 data = get_data() # returns a very large list
 
 # we only want the first half of the list
-end = int(ceil(len(data) / 2))
+end = int(math.ceil(len(data) / 2))
 
 # without span
 first_half = data[:end] # copies the entire first half
