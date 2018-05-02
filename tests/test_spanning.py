@@ -1,9 +1,12 @@
 #! /usr/bin/env python3
-import unittest
-from spanning import *
+from unittest import TestCase
+from sys import path
+
+path.append("..")
+from spanning import ReadOnlySpan, Span
 
 
-class TestReadOnlySpan(unittest.TestCase):
+class TestReadOnlySpan(TestCase):
     span = ReadOnlySpan
 
     def test_init_list(self):
@@ -368,7 +371,3 @@ class TestSpan(TestReadOnlySpan):
         self.assertEqual(ls[4], 51)
         with self.assertRaises(IndexError):
             sp[2] = 40
-
-
-if __name__ == "__main__":
-    unittest.main()

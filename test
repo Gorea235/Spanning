@@ -1,9 +1,0 @@
-#! /bin/sh
-
-SEP="==============="
-
-echo $SEP "Testing Python 2" $SEP
-python2 test_spanning.py
-echo
-echo $SEP "Testing Python 3" $SEP
-python3 test_spanning.py
