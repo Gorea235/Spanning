@@ -26,7 +26,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
     ],
-    keywords='list list-like reference large',
+    keywords='list list-like listlike reference large files span spanning',
     packages=['spanning'],
     project_urls={
         'Bug Reports': 'https://github.com/Gorea235/python-spanning/issues',
