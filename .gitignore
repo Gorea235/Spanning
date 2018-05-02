@@ -5,3 +5,9 @@ __pycache__/
 
 # VSCode artifacts
 .vscode
+
+# Testing/dist items
+.tox/
+build/
+dist/
+*.egg-info/
