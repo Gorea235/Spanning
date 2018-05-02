@@ -1,5 +1,5 @@
 # Python Span
-A simple library providing `Span` and `ReadOnlySpan` classes. The idea of these are very similar to [C#'s Span<T>](https://github.com/dotnet/corefxlab/blob/master/docs/specs/span.md), however they are a pure-Python implementation of it. The start and end points are handled via Python's `slice` object, meaning negative ends and starts work as expected, and step works is it does for sliced lists.
+A simple library providing `Span` and `ReadOnlySpan` classes. The idea of these are very similar to [C#'s Span&lt;T&gt;](https://github.com/dotnet/corefxlab/blob/master/docs/specs/span.md), however they are a pure-Python implementation of it. The start and end points are handled via Python's `slice` object, meaning negative ends and starts work as expected, and step works is it does for sliced lists.
 
 The classes provide read/write and read-only access to certain sections of list-like object, without having to reallocate them via normal slicing. Any object that can be indexed and has a length can be used, meaning you can even create `ReadOnlySpan`s over strings (useful in processing large strings that could have been read from a file).
 
